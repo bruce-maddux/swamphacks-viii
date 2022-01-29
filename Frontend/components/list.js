@@ -28,7 +28,7 @@ class List extends React.Component {
           }
     return(
         <View>
-            <TouchableOpacity style = {{
+            <View style = {{
                 borderColor: this.props.color, 
                 backgroundColor: this.props.color, 
                 borderRadius: 30,
@@ -38,7 +38,7 @@ class List extends React.Component {
                 paddingRight: 8,
                 }}>
                 <Text style = {styles.text}>{this.props.date}</Text>
-            </TouchableOpacity>
+            </View>
         </View>
     );
 }

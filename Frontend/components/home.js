@@ -1,8 +1,9 @@
 import React from 'react'
-import { StyleSheet, Dimensions, Text, View, ScrollView , TouchableOpacity} from 'react-native';
+import { StyleSheet, Dimensions, Text, View, ScrollView , TouchableOpacity, Pressable} from 'react-native';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import List from './list'
+import { Feather } from '@expo/vector-icons';
 
 let customFonts = {
     'Roboto': require('../assets/fonts/Roboto-Medium.ttf'),
@@ -37,21 +38,24 @@ class home extends React.Component{
             <View style = {homeStyles.container}>
               <View style = {homeStyles.left}>
                 <Text style = {homeStyles.titleText}>Shopping List</Text>
-                <Text style = {homeStyles.subTitleText}>My Lists</Text>
+                <View style = {{display:"flex", flexDirection:"row"}}>
+                  <Text style = {homeStyles.subTitleText}>My Lists</Text>
+                  <Feather name= "plus-circle" color= "black" size={35} style = {{paddingRight: 20}}/>
+                </View>
                 <ScrollView horizontal = {true} showsVerticalScrollIndicator={false}
                   showsHorizontalScrollIndicator={false}>
-                  <TouchableOpacity style = {{paddingRight: 10,}} onPress = {() => this.handleSelectedList(1)}>
+                  <Pressable style = {{paddingRight: 10,}} onPress = {() => this.handleSelectedList(1)}>
                     <List date = "1/30/2022" color = {this.state.selectedList === 1 ? "#36454F" :"#7393B3"}></List>
-                  </TouchableOpacity>
-                  <TouchableOpacity style = {homeStyles.myList} onPress = {() => this.handleSelectedList(2)}>
+                  </Pressable>
+                  <Pressable style = {homeStyles.myList} onPress = {() => this.handleSelectedList(2)}>
                     <List  date = "1/29/2022" color = {this.state.selectedList === 2 ? "#36454F" :"#7393B3"}></List>
-                  </TouchableOpacity>
-                  <TouchableOpacity style = {homeStyles.myList} onPress = {() => this.selectedList = 3}>
-                    <List  date = "1/29/2022" color = "#9047de"></List>
-                  </TouchableOpacity>
-                  <TouchableOpacity style = {homeStyles.myList} onPress = {() => this.selectedList = 4}>
-                    <List  date = "1/29/2022" color = "#055C9D"></List>
-                  </TouchableOpacity>
+                  </Pressable>
+                  <Pressable style = {homeStyles.myList} onPress = {() => this.handleSelectedList(3)}>
+                    <List  date = "1/29/2022" color = {this.state.selectedList === 3 ? "#36454F" :"#7393B3"}></List>
+                  </Pressable>
+                  <Pressable style = {homeStyles.myList} onPress = {() => this.handleSelectedList(4)}>
+                    <List  date = "1/29/2022" color = {this.state.selectedList === 4 ? "#36454F" :"#7393B3"}></List>
+                  </Pressable>
                 </ScrollView>
               </View>
             </View>
@@ -81,12 +85,13 @@ const homeStyles = StyleSheet.create({
         fontFamily: "Poppins",
         fontWeight: '700',
         color: "black",
-        overflow:'hidden'
+        overflow:'hidden',
+        paddingBottom: 20,
     },
     subTitleText:{
       fontSize: 30,
-      paddingTop: 20,
       paddingBottom: 10,
+      flex : 1,
     },
     listContainer : {
       display: "flex",
