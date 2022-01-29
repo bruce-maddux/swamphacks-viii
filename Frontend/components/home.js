@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Dimensions, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, Text, View, ScrollView , TouchableOpacity} from 'react-native';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import List from './list'
@@ -12,6 +12,7 @@ let customFonts = {
 class home extends React.Component{
     state = {
         fontsLoaded: false,
+        selectedList: 1,
       };
       async _loadFontsAsync() {
         await Font.loadAsync(customFonts);
@@ -21,6 +22,10 @@ class home extends React.Component{
       componentDidMount() {
         this._loadFontsAsync();
       }
+     handleSelectedList=(num)=>{
+        console.log(num)
+        this.setState({selectedList : num});
+     } 
     
     render()
     {
@@ -28,25 +33,25 @@ class home extends React.Component{
             return <AppLoading />;
           }
         return(
+
             <View style = {homeStyles.container}>
               <View style = {homeStyles.left}>
                 <Text style = {homeStyles.titleText}>Shopping List</Text>
                 <Text style = {homeStyles.subTitleText}>My Lists</Text>
                 <ScrollView horizontal = {true} showsVerticalScrollIndicator={false}
-  showsHorizontalScrollIndicator={false}>
-                  <View style = {homeStyles.myList}>
-                    <List  date = "1/29/2022" color = "#055C9D"></List>
-                  </View>
-                  <View style = {homeStyles.myList}>
-                    <List  date = "1/29/2022" color = "#006400"></List>
-                  </View>
-                  <View style = {homeStyles.myList}>
+                  showsHorizontalScrollIndicator={false}>
+                  <TouchableOpacity style = {{paddingRight: 10,}} onPress = {() => this.handleSelectedList(1)}>
+                    <List date = "1/30/2022" color = {this.state.selectedList === 1 ? "#36454F" :"#7393B3"}></List>
+                  </TouchableOpacity>
+                  <TouchableOpacity style = {homeStyles.myList} onPress = {() => this.handleSelectedList(2)}>
+                    <List  date = "1/29/2022" color = {this.state.selectedList === 2 ? "#36454F" :"#7393B3"}></List>
+                  </TouchableOpacity>
+                  <TouchableOpacity style = {homeStyles.myList} onPress = {() => this.selectedList = 3}>
                     <List  date = "1/29/2022" color = "#9047de"></List>
-                  </View>
-                  <View style = {homeStyles.myList}>
+                  </TouchableOpacity>
+                  <TouchableOpacity style = {homeStyles.myList} onPress = {() => this.selectedList = 4}>
                     <List  date = "1/29/2022" color = "#055C9D"></List>
-                  </View>
-
+                  </TouchableOpacity>
                 </ScrollView>
               </View>
             </View>
