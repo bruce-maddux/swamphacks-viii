@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from 'react-native';
-class recieptUploader extends React.Component{
+class Receipt extends React.Component{
     render()
     {
         return(
@@ -10,4 +10,4 @@ class recieptUploader extends React.Component{
         )
     }
 }
-export default recieptUploader;
+export default Receipt;
