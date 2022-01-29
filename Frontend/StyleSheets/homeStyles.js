@@ -2,7 +2,7 @@ import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import reactDom from "react-dom";
 import { Dimensions } from 'react-native';
 import {StyleSheet} from "react-native"
-import { Roboto_400Regular } from "@expo-google-fonts/roboto";
+import {useFonts, Roboto_400Regular } from "@expo-google-fonts/roboto";
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
