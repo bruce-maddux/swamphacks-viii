@@ -4,6 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import home from './home'
 import user from './user'
 import map from "./map";
+import recieptUploader from "./recieptUploader";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
@@ -19,6 +20,9 @@ const iconOptions = (route, color) => {
             break;
         case 'Map':
             iconName = 'map-marker';
+            break;
+        case 'Reciept':
+            iconName = 'newspaper-o';
             break;
         default:
             break;
@@ -47,11 +51,13 @@ const tabNavigator = ({route, navigation}) => {
             <Tab.Screen name="Home" component={home}
               options = {{  
                 tabBarLabel: () => null,
-              
-                
               }}
              />
             <Tab.Screen name="User" component={user} 
+            options = {{  
+              tabBarLabel: () => null
+            }}/>
+            <Tab.Screen name="Reciept" component={recieptUploader} 
             options = {{  
               tabBarLabel: () => null
             }}/>
