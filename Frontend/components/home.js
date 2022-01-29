@@ -1,13 +1,14 @@
 import React from 'react'
-import { StyleSheet, Dimensions, Text, View } from 'react-native';
+import { StyleSheet, Dimensions, Text, View, ScrollView } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
-
+import List from './list'
 
 let customFonts = {
     'Roboto': require('../assets/fonts/Roboto-Medium.ttf'),
     'Poppins' : require('../assets/fonts/Poppins-Medium.ttf')
   };
+
 class home extends React.Component{
     state = {
         fontsLoaded: false,
@@ -27,11 +28,27 @@ class home extends React.Component{
             return <AppLoading />;
           }
         return(
-            <View >
+            <View style = {homeStyles.container}>
+              <View style = {homeStyles.left}>
                 <Text style = {homeStyles.titleText}>Shopping List</Text>
-                <View style = {homeStyles.container}>
-                    <Text style = {{textAlign:"center"}}>Home</Text>
-                </View>
+                <Text style = {homeStyles.subTitleText}>My Lists</Text>
+                <ScrollView horizontal = {true} showsVerticalScrollIndicator={false}
+  showsHorizontalScrollIndicator={false}>
+                  <View style = {homeStyles.myList}>
+                    <List  date = "1/29/2022" color = "#055C9D"></List>
+                  </View>
+                  <View style = {homeStyles.myList}>
+                    <List  date = "1/29/2022" color = "#006400"></List>
+                  </View>
+                  <View style = {homeStyles.myList}>
+                    <List  date = "1/29/2022" color = "#9047de"></List>
+                  </View>
+                  <View style = {homeStyles.myList}>
+                    <List  date = "1/29/2022" color = "#055C9D"></List>
+                  </View>
+
+                </ScrollView>
+              </View>
             </View>
         )
     }
@@ -45,27 +62,32 @@ const height = Dimensions.get('window').height;
 
 const homeStyles = StyleSheet.create({
     container: {
-        display: "flex",
-        justifyContent: "center",
         width: "100%",
         height: "100%",
         backgroundColor: "#f5f5f5",
         zIndex: -1,
     },
+    left: {
+      marginLeft: width / 11,
+    },
     titleText: {
-        backgroundColor: "#313639",
-        position: "absolute",
         marginTop: height / 12,
-        marginLeft: 30,
         fontSize : 40,
         fontFamily: "Poppins",
         fontWeight: '700',
-        borderWidth : 3,
-        borderRadius : 30,
-        paddingLeft: 10,
-        paddingRight: 10,
-        color: "#f5f5f5",
-        borderColor: "#313639",
+        color: "black",
         overflow:'hidden'
+    },
+    subTitleText:{
+      fontSize: 30,
+      paddingTop: 20,
+      paddingBottom: 10,
+    },
+    listContainer : {
+      display: "flex",
+      flexDirection: "row",
+    },
+    myList : {
+      paddingRight: 10,
     }
 });
