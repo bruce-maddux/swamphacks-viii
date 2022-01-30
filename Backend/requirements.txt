@@ -31,3 +31,6 @@ watchdog==1.0.2
 Werkzeug==2.0.2
 chromedriver-binary-auto
 selenium==3.141.0
+google-cloud-vision==2.6.3
+SQLAlchemy==1.4.27
+PyMySQL==1.0.2
