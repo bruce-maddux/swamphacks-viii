@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Dimensions, Text, View, ScrollView, Pressable, TextInput} from 'react-native';
+import { StyleSheet, Dimensions, Text, View, ScrollView, Pressable, TextInput, TouchableOpacity} from 'react-native';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import List from './list'
@@ -7,7 +7,7 @@ import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import GroceryList from './listElements/GroceryList'
 import 'core-js/es6/symbol'; import 'core-js/fn/symbol/iterator';
-
+import axios from 'axios';
 
 
 let customFonts = {
@@ -22,7 +22,7 @@ class home extends React.Component{
         selectListCounter: 0,
         data:[],
         viewList:[
-
+          
         ],
         currentList:[
         ],
@@ -32,6 +32,7 @@ class home extends React.Component{
         currentTodo:{}
         ,
         timer: false,
+        needUpdate: false,
 
       };
       async _loadFontsAsync() {
@@ -68,7 +69,6 @@ class home extends React.Component{
               this.setState({listOpen: true})
               var row = {date: copy[i].date, todos: this.state.todos2D[i]}
               this.setState({currentTodo: row}) // when clicking on new tab, set currentTodo to new tab name and todos to cur
-              console.log(this.state.currentTodo)
             }
         }
 
@@ -112,6 +112,9 @@ class home extends React.Component{
       this.setState({
         data: [...this.state.data, newRow]
       });
+      this.setState({
+        currentList: newRow
+      })
       let todosRow = []
       this.setState({
         todos2D: [...this.state.todos2D, todosRow]
@@ -148,7 +151,31 @@ class home extends React.Component{
               copy[i].date = text;
           }
         }
+        let copyCurr = this.state.currentTodo;
+        copyCurr.date = text;
         this.setState({data: copy});
+        this.setState({currentTodo : copyCurr});
+     }
+     formatData = () => {
+       let copy = this.state.data;
+       let name = this.state.currentList.date;
+       let array = []
+
+        this.setState({needUpdate: true})
+        let x = this.state.currentTodo.todos;
+        for(var i =0; i < Object.keys(x).length; i++)
+        {
+            array.push(x[i].value)
+        }
+        this.setState({needUpdate: false})
+
+       let ans = 
+       {name : name,
+        username: "username",
+        groceryList : array
+      }
+      axios.post("https://us-central1-vernal-bonfire-303320.cloudfunctions.net/get-cheapest-prices", ans).then(res => {console.log(res)})
+      console.log(ans);
      }
     render()
     {
@@ -186,15 +213,20 @@ class home extends React.Component{
 
 
                 {this.state.listOpen && 
-                <View style = {{display:"flex", flexDirection:"row", justifyContent:"center", alignItems:"center", paddingTop: 10}}>
+                <View style = {{paddingTop: 20}}>
+                  <Text style = {{
+                    alignSelf: "center", paddingBottom: 10, fontSize: 30, right: 15, 
+                    fontFamily: "Poppins", textDecorationLine: "underline", color: "midnightblue"
+                    }}>Name</Text>
+                <View style = {{display:"flex", flexDirection:"row", justifyContent:"center", alignItems:"center"}}>
                   {this.state.isEditing ? 
-                  <TextInput autoFocus style = {{textAlign:"center",  fontSize: 30, fontFamily: "Poppins", paddingRight: 10}}
+                  <TextInput autoFocus style = {{textAlign:"center",  fontSize: 25, fontFamily: "Poppins", paddingRight: 10}}
                   onChangeText = {(text) => this.updateName(text)}
                   onBlur={() => this.setState({ isEditing: false })}
                   >
                     {this.state.currentList.date}
                   </TextInput> :
-                  <Text style = {{textAlign:"center",  fontSize: 30, fontFamily: "Poppins", paddingRight: 10}}>
+                  <Text style = {{textAlign:"center",  fontSize: 25, fontFamily: "Poppins", paddingRight: 10}}>
                     {this.state.currentList.date}
                   </Text>}
                   <Pressable onPress = {() => this.setState({isEditing: true})}>
@@ -202,9 +234,16 @@ class home extends React.Component{
                       <FontAwesome name = "pencil" color = "#a9a9a9" size = {35}/>
                     }
                   </Pressable>
-                </View>}
+                </View></View>}
               </View>
-              {this.state.listOpen && <GroceryList key={this.state.currentTodo.date} todos = {this.state.currentTodo.todos} updateParentState={this.updateState.bind(this)}/>}
+              {this.state.listOpen && <GroceryList key={this.state.needUpdate ? "FORCE" : this.state.currentTodo.date} 
+              todos = {this.state.currentTodo.todos} updateParentState={this.updateState.bind(this)}/>}
+              {this.state.listOpen && <View style = {{height: 70, backgroundColor:"#f5f5f5"}}>
+                <TouchableOpacity style = {{position: "absolute", bottom: 10, alignSelf: "center"}} onPress = {()=> this.formatData()} >
+                <Text style = {{fontSize: 30, fontFamily: "Poppins", padding: 2, paddingLeft: 10, paddingRight: 10,
+                borderWidth: 2, borderRadius: 25}}>Submit</Text>
+              </TouchableOpacity>
+              </View>}
 
             </View>
         )
