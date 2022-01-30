@@ -4,6 +4,7 @@ import {createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from "react";
 import login from "./components/login"
 import tabNavigator from './components/tabNavigator';
+import newUserPage from './components/newUserPage';
 const Stack = createNativeStackNavigator();
 
 class App extends React.Component {
@@ -16,6 +17,7 @@ class App extends React.Component {
               }}>
                   <Stack.Screen name="Login" component={login} />
                   <Stack.Screen name = "Tab" component = {tabNavigator}/>
+                  <Stack.Screen name = "NewUser" component = {newUserPage}/>
               </Stack.Navigator>
           </NavigationContainer>
     );
