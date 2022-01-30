@@ -26,7 +26,7 @@ let width = Dimensions.get('window').width;
 let height = Dimensions.get('window').height
 
 
-const Map = () => {
+const map = () => {
 
     const [latitude, setLatitude] = useState(0.0)
     const [longitude, setLongitude] = useState(0.0)

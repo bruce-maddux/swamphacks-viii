@@ -1,5 +1,4 @@
 import React from 'react'
-<<<<<<< HEAD
 import { Text, View, TouchableOpacity, Dimensions, Image} from 'react-native';
 import {getStorage, uploadBytes, ref, uploadString} from "firebase/storage"
 import {utils} from "firebase/app"
