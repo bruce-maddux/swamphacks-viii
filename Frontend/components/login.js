@@ -91,7 +91,6 @@ export default class loginPage extends React.Component{
                             keyboardType="visible-password"
                             autoCapitalize='none'
                             autoCorrect={false}
-
                         />
                     </View>
                 </View>

@@ -5,7 +5,6 @@ import TodoItem from "./TodoItem";
 import AddTodo from "./AddTodo";
 
 export default  function GroceryList(props) {
-
   const [todos, setTodos] = useState(props.todos);
   useEffect(()=> {
     updateParentState(todos);
@@ -17,7 +16,7 @@ export default  function GroceryList(props) {
     }
     setTodos(prevTodos => [
       ...prevTodos,
-      { key: Math.random().toString(), value: addTodos }
+      { key: todos.length, value: addTodos }
     ]);
    
     // setAddMode(false);
@@ -35,11 +34,11 @@ export default  function GroceryList(props) {
   const handleEdit = (todoKey, newText) => {
     const newTodos = [...todos];
     const index = newTodos.findIndex(todos => todos.key === todoKey);
-    newTodos[index] = Object.assign(newTodos[index], { value: newText });
+    newTodos[index] = Object.assign(newTodos[index], { value: newText});
 
     setTodos(newTodos);
-    
   };
+  
 
   return (
     <View style={styles.container} >
@@ -52,10 +51,12 @@ export default  function GroceryList(props) {
         keyExtractor={(item, index) => item.key}
         data={todos}
         renderItem={({ item }) => (
-          <TodoItem
+          <TodoItem 
             key={item.key}
             todoKey={item.key}
             title={item.value}
+            price = {props.submitted ? props.prices[item.key] : ""}
+            location = {props.submitted ? props.location[item.key] : ""}
             editHandler={handleEdit}
             pressHandler={handleDelete}
           />

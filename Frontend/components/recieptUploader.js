@@ -6,6 +6,7 @@ import * as ImagePicker from 'expo-image-picker'
 import firebase from '../config/firebase';
 import {getFirestore} from 'firebase/firestore/lite'
 import uuid from "react-native-uuid"
+import ReceiptStyles from '../StyleSheets/ReceiptStyles';
 
 class ReceiptTab extends React.Component{
 
@@ -14,12 +15,17 @@ class ReceiptTab extends React.Component{
         this.state = {
             image: "",
             uploaded : false,
-            storageFB : null
+            storageFB : null,
+            selected : false
         }
     }
 
     componentDidMount(){
-        console.log(firebase)
+    }
+
+    uploadImage = async () => {
+        console.log("hello")
+
     }
 
     selectImage = async () => {
@@ -56,34 +62,59 @@ class ReceiptTab extends React.Component{
                   uploaded : true
               })
           }
-
-
-          
-
         
-        
+    }
+
+    uploadImageButton = () => {
+        return(
+            <TouchableOpacity style={{
+                backgroundColor: '#00694d',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 30,
+                width: 120,
+                height: 40,
+                }} onPress={this.uploadImage}>
+                    <Text>
+                        Upload Receipt
+                    </Text>
+            </TouchableOpacity>
+        )
+    }
+
+    selectImageButton = () => {
+        return(
+            <TouchableOpacity style = {{ bottom: 10, alignSelf: "center"}} onPress = {this.selectImage} >
+                <Text style = {{fontSize: 30, fontFamily: "Poppins", padding: 2, paddingLeft: 10, paddingRight: 10,
+                borderWidth: 2, borderRadius: 25}}>Submit</Text>
+              </TouchableOpacity>
+            // <TouchableOpacity style={{
+            //                 backgroundColor: '#00694d',
+            //                 alignItems: 'center',
+            //                 justifyContent: 'center',
+            //                 borderRadius: 30,
+            //                 width: 120,
+            //                 height: 40,
+            //                 }} onPress={this.selectImage}>
+            //             <Text>
+            //                 Select Image
+            //             </Text>
+            // </TouchableOpacity>
+
+        )
     }
     
     render()
     {
         return(
-            <View>
-                <TouchableOpacity style={{
-                        backgroundColor: '#00694d',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 30,
-                        width: 120,
-                        height: 40,
-                        marginTop : Dimensions.get('screen').height / 2,
-                        marginLeft: (Dimensions.get('screen').width / 2),
-                        position: 'absolute',
-                        }} onPress={this.selectImage}>
-                    <Text>
-                        Upload
-                    </Text>
-                </TouchableOpacity>
-                {this.state.uploaded ? <Image source={{uri: this.state.image}} style={{ width: 200, height: 200 }}/> : null}
+            <View style={ReceiptStyles.container} >
+                <Text style={ReceiptStyles.titleText}>Submit your receipt here!</Text>
+                <View>
+                    {this.state.uploaded ? <Image source={{uri: this.state.image}} style={{ width: 300, height: 300 }}/> : null}
+                </View>
+                {this.state.selected ? this.uploadImageButton() : this.selectImageButton()}
+                    
+              
             </View>
         )
     }

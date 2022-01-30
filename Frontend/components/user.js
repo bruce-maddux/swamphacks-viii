@@ -42,6 +42,41 @@ class user extends React.Component{
     handleName = (text) => {
         this.setState({name:text});
     }
+    selectImage = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+          })
+
+          const metadata = {
+              contentType : 'image/jpg'
+          }
+
+          const stor = getStorage(firebase)
+          const pathRef = ref(stor, 'newimage.jpg')
+          const imageRef = ref(stor, uuid.v4())
+          
+          
+
+          const response = await fetch(result.uri)
+          const blob = await response.blob()
+
+          
+          
+          await uploadBytes(imageRef, blob, metadata).then((res) => {
+              console.log("UPLOADED")
+          })
+
+          console.log(stor)
+          if(!result.cancelled){
+              this.setState({
+                  image : result.uri,
+                  uploaded : true
+              })
+          }  
+    }
     render()
     {
         if (!this.state.fontsLoaded) {
