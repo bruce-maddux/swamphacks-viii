@@ -90,6 +90,10 @@ def detect_text(bucket, filename):
 
      
     for token in words:
+        #In case of errononeous . as a ,
+        if ',' in token:
+            token = token.replace(',', '.')
+
         if '@' in token: # 1 @ 3
             continue 
 
