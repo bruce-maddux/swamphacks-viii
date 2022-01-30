@@ -6,7 +6,6 @@ import List from './list'
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import GroceryList from './listElements/GroceryList'
-import 'core-js/es6/symbol'; import 'core-js/fn/symbol/iterator';
 import axios from 'axios';
 
 
@@ -33,6 +32,11 @@ class home extends React.Component{
         ,
         timer: false,
         needUpdate: false,
+        priceData: [],
+        locationData:[],
+        submitted:[
+
+        ],
 
       };
       async _loadFontsAsync() {
@@ -58,6 +62,12 @@ class home extends React.Component{
                 let copy2D = this.state.todos2D;
                 copy2D[i] = cur;
                 this.setState({todos2D: copy2D});
+
+                let submit = this.state.currentTodo.submitted;
+                let copySubmit = this.state.submitted;
+                copySubmit[i] = submit;
+                this.setState({submitted: copySubmit})
+                
               }
             }
         }
@@ -67,7 +77,7 @@ class home extends React.Component{
             {
               this.setState({currentList: copy[i]})
               this.setState({listOpen: true})
-              var row = {date: copy[i].date, todos: this.state.todos2D[i]}
+              var row = {date: copy[i].date, todos: this.state.todos2D[i], submitted: this.state.submitted[i]}
               this.setState({currentTodo: row}) // when clicking on new tab, set currentTodo to new tab name and todos to cur
             }
         }
@@ -119,6 +129,10 @@ class home extends React.Component{
       this.setState({
         todos2D: [...this.state.todos2D, todosRow]
       })
+      let submitRow = false;
+      this.setState({
+        submitted: [...this.state.submitted, submitRow]
+      })
       
      }
      updateState(data) {
@@ -126,7 +140,8 @@ class home extends React.Component{
       if(!this.state.timer)
       {
         var date = this.state.currentTodo.date;
-        let row = {date: date, todos: data}
+        var submit = this.state.currentTodo.submitted
+        let row = {date: date, todos: data, submitted: submit}
         this.setState({
         currentTodo: row 
       })
@@ -157,25 +172,33 @@ class home extends React.Component{
         this.setState({currentTodo : copyCurr});
      }
      formatData = () => {
+       console.log(this.state.currentTodo)
        let copy = this.state.data;
        let name = this.state.currentList.date;
        let array = []
 
         this.setState({needUpdate: true})
         let x = this.state.currentTodo.todos;
-        for(var i =0; i < Object.keys(x).length; i++)
+        for(var i = 0; i < Object.keys(x).length; i++)
         {
             array.push(x[i].value)
         }
         this.setState({needUpdate: false})
-
+        var date = this.state.currentTodo.date;
+        var data = this.state.currentTodo.todos
+        var row = {date: date, todos: data, submitted: true};
+        this.setState({currentTodo:row})
        let ans = 
        {name : name,
         username: "username",
         groceryList : array
       }
-      axios.post("https://us-central1-vernal-bonfire-303320.cloudfunctions.net/get-cheapest-prices", ans).then(res => {console.log(res)})
-      console.log(ans);
+      axios.post("https://us-central1-vernal-bonfire-303320.cloudfunctions.net/get-cheapest-prices", ans).then(res => {
+        this.setState({locationData: res.data.stores})
+         this.setState({priceData: res.data.prices})})
+
+      console.log(this.state.priceData);
+      console.log(this.state.locationData);
      }
     render()
     {
@@ -237,7 +260,8 @@ class home extends React.Component{
                 </View></View>}
               </View>
               {this.state.listOpen && <GroceryList key={this.state.needUpdate ? "FORCE" : this.state.currentTodo.date} 
-              todos = {this.state.currentTodo.todos} updateParentState={this.updateState.bind(this)}/>}
+              todos = {this.state.currentTodo.todos} updateParentState={this.updateState.bind(this)} prices = {this.state.priceData}
+              location = {this.state.locationData} submitted = {this.state.currentTodo.submitted}/>}
               {this.state.listOpen && <View style = {{height: 70, backgroundColor:"#f5f5f5"}}>
                 <TouchableOpacity style = {{position: "absolute", bottom: 10, alignSelf: "center"}} onPress = {()=> this.formatData()} >
                 <Text style = {{fontSize: 30, fontFamily: "Poppins", padding: 2, paddingLeft: 10, paddingRight: 10,
