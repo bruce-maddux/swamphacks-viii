@@ -4,7 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import home from './home'
 import user from './user'
 import map from "./map";
-import recieptUploader from "./recieptUploader";
+import ReceiptTab from './recieptUploader'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
@@ -57,7 +57,7 @@ const tabNavigator = ({route, navigation}) => {
             options = {{  
               tabBarLabel: () => null
             }}/>
-            <Tab.Screen name="Reciept" component={recieptUploader} 
+            <Tab.Screen name="Reciept" component={ReceiptTab} 
             options = {{  
               tabBarLabel: () => null
             }}/>
