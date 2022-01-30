@@ -1,40 +1,30 @@
 import {Alert, Button, Image, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {StatusBar} from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import styles from "../StyleSheets/AppStyling"
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import loginStyles from '../StyleSheets/loginStyles'
-import AppLoading from 'expo-app-loading';
-import * as Font from 'expo-font';
 
-let customFonts = {
-    'Roboto': require('../assets/fonts/Roboto-Medium.ttf'),
-    'Poppins' : require('../assets/fonts/Poppins-Medium.ttf')
-  };
-export default class loginPage extends React.Component{
+export default class newUserPage extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
             email : "",
             password : "",
+            confirmPassword : "",
         };
     }
-    async _loadFontsAsync() {
-        await Font.loadAsync(customFonts);
-        this.setState({ fontsLoaded: true });
-      }
-    
-      componentDidMount() {
-        this._loadFontsAsync();
-      }
     handleEmail=(text)=>{
         this.setState({email:text});
     }
     handlePassword=(text)=>{
         this.setState({password:text});
     }
+    handleConfirmPassword=(text)=>{
+        this.setState({confirmPassword : text});
+    }
     handleLogin = () =>{
-        if(this.state.email === "" || this.state.password === "")
+        if(this.state.email === "" || this.state.password === "" || this.state.confirmPassword === "")
         {
             Alert.alert(
                 "Error",
@@ -44,7 +34,7 @@ export default class loginPage extends React.Component{
                 ]
             );
         }
-        else if(this.state.email.includes('@') === false || this.state.email.includes('.') === false)
+        else if(this.state.email.includes('@') == false || this.state.email.includes('.') == false)
         {
             Alert.alert(
                 "Error",
@@ -58,7 +48,17 @@ export default class loginPage extends React.Component{
         {
             Alert.alert(
                 "Error",
-                "Password is not 8 characters long.",
+                "Your password must be at least 8 characters in length.",
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ]
+            );
+        }
+        else if(this.state.password !== this.state.confirmPassword)
+        {
+            Alert.alert(
+                "Error",
+                "Passwords do not match.",
                 [
                     { text: "OK", onPress: () => console.log("OK Pressed") }
                 ]
@@ -70,13 +70,10 @@ export default class loginPage extends React.Component{
         }
     }
     render()
-    { if (!this.state.fontsLoaded) {
-        return <AppLoading />;
-      }
+    {
         return (
             <View style={styles.container}>
-                <Text style = {{fontSize: 80, paddingBottom: 10, fontFamily: "Poppins", color:"midnightblue"}}>CartIt.</Text>
-                <Image style={styles.image} source={require("../assets/logo.png")}/>
+
 
                 <StatusBar style="auto"/>
                 <View style = {{flexDirection : 'row', alignItems : "center"}}>
@@ -96,8 +93,10 @@ export default class loginPage extends React.Component{
                     </View>
                 </View>
 
+                <Text style={{height : 30, marginTop : 10, color : 'black'}}>Your password must have at least 8 characters.</Text>
+
                 <View style = {{flexDirection : 'row', alignItems : "center"}}>
-                    <SimpleLineIcons style = {{marginRight : 10,}}name={"lock"} color={"black"} size={25} />
+                    <SimpleLineIcons style = {{marginRight : 10,}}name={"lock-open"} color={"black"} size={25} />
                     <View style={loginStyles.viewInput}>
                         <TextInput
                             style={loginStyles.textInput}
@@ -110,14 +109,20 @@ export default class loginPage extends React.Component{
                         />
                     </View>
                 </View>
-
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('NewUser')}>
-                    <Text style={{height : 30, marginTop : 10, color : 'blue'}}>Not a user? Create Account</Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Text style={{height : 30, color : 'blue'}}>Forgot Password?</Text>
-                </TouchableOpacity>
-
+                <View style = {{flexDirection : 'row', alignItems : "center"}}>
+                    <SimpleLineIcons style = {{marginRight : 10,}}name={"lock"} color={"black"} size={25} />
+                    <View style={loginStyles.viewInput}>
+                        <TextInput
+                            style={loginStyles.textInput}
+                            placeholder = "Confirm Password"
+                            placeholderTextColor="gray"
+                            keyboardType="visible-password"
+                            secureTextEntry={true}
+                            textAlignVertical='top'
+                            onChangeText={(text) =>this.handleConfirmPassword(text)}
+                        />
+                    </View>
+                </View>
 
                 <TouchableOpacity style={loginStyles.button} onPress={() => this.handleLogin()}>
                     <SimpleLineIcons style = {{marginRight : 10,}}name={"login"} color={"black"} size={20} />
@@ -128,5 +133,4 @@ export default class loginPage extends React.Component{
         );
     }
 }
-
 

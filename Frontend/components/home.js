@@ -5,6 +5,9 @@ import * as Font from 'expo-font';
 import List from './list'
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import GroceryList from './listElements/GroceryList'
+import 'core-js/es6/symbol'; import 'core-js/fn/symbol/iterator';
+
 
 
 let customFonts = {
@@ -15,18 +18,21 @@ let customFonts = {
 class home extends React.Component{
     state = {
         fontsLoaded: false,
-        selectedList: 1,
-        selectListCounter: 1,
-        data:[
-        ],
+        selectedList: 0,
+        selectListCounter: 0,
+        data:[],
         viewList:[
 
         ],
         currentList:[
-
         ],
         listOpen : false,
         isEditing: false,
+        todos2D:[],
+        currentTodo:{}
+        ,
+        timer: false,
+
       };
       async _loadFontsAsync() {
         await Font.loadAsync(customFonts);
@@ -36,18 +42,36 @@ class home extends React.Component{
       componentDidMount() {
         this._loadFontsAsync();
       }
+    
      handleSelectedList=(num)=>{
-        this.setState({selectedList : num});
 
+        this.setState({selectedList : num});
         let copy = this.state.data;
+        if(this.state.listOpen)
+        {
+            for(var i = 0; i < copy.length; i++)
+            {
+              if(copy[i].date === this.state.currentTodo.date) //if switched off tab, we need to save that tabs info
+              {
+                let cur = this.state.currentTodo.todos;
+                let copy2D = this.state.todos2D;
+                copy2D[i] = cur;
+                this.setState({todos2D: copy2D});
+              }
+            }
+        }
         for(var i = 0; i < copy.length; i++)
         {
             if(copy[i].index === num)
             {
               this.setState({currentList: copy[i]})
               this.setState({listOpen: true})
+              var row = {date: copy[i].date, todos: this.state.todos2D[i]}
+              this.setState({currentTodo: row}) // when clicking on new tab, set currentTodo to new tab name and todos to cur
+              console.log(this.state.currentTodo)
             }
         }
+
      } 
      addListButtons =(_date, _index)=>{
       this.setState({selectListCounter: ++_index})
@@ -88,7 +112,23 @@ class home extends React.Component{
       this.setState({
         data: [...this.state.data, newRow]
       });
+      let todosRow = []
+      this.setState({
+        todos2D: [...this.state.todos2D, todosRow]
+      })
+      
      }
+     updateState(data) {
+      
+      if(!this.state.timer)
+      {
+        var date = this.state.currentTodo.date;
+        let row = {date: date, todos: data}
+        this.setState({
+        currentTodo: row 
+      })
+      }
+    }
      getDate(){
       var today = new Date();
       var dd = String(today.getDate()).padStart(2, '0');
@@ -117,9 +157,12 @@ class home extends React.Component{
           }
         let listButtons = this.state.data.map((item) => {
           return (
-            <Pressable style = {{paddingRight: 10,}} onPress = {() => this.handleSelectedList(item.index)}>
+            <View>
+                <Pressable style = {{paddingRight: 10,}} onPress = {() => this.handleSelectedList(item.index)}>
                   <List key = {item} date = {item.date} color = {this.state.selectedList === item.index ? "#36454F" :"#7393B3"}></List>
-            </Pressable>
+                </Pressable>
+            </View>
+            
           )
         });
         return(
@@ -155,10 +198,14 @@ class home extends React.Component{
                     {this.state.currentList.date}
                   </Text>}
                   <Pressable onPress = {() => this.setState({isEditing: true})}>
-                    <FontAwesome name = "pencil" color = "#a9a9a9" size = {35}/>
+                    {this.state.isEditing ? <FontAwesome name = "pencil" color = "black" size = {35}/> :                   
+                      <FontAwesome name = "pencil" color = "#a9a9a9" size = {35}/>
+                    }
                   </Pressable>
                 </View>}
               </View>
+              {this.state.listOpen && <GroceryList key={this.state.currentTodo.date} todos = {this.state.currentTodo.todos} updateParentState={this.updateState.bind(this)}/>}
+
             </View>
         )
     }
