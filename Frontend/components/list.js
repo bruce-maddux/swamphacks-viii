@@ -39,6 +39,8 @@ class List extends React.Component {
                 }}>
                 <Text style = {styles.text}>{this.props.date}</Text>
             </View>
+            
+
         </View>
     );
 }
