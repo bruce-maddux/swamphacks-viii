@@ -3,7 +3,6 @@ import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
 import Buttons from "./Buttons";
 import { FontAwesome } from '@expo/vector-icons';
 import {AntDesign} from '@expo/vector-icons'
-import Dropdown from '../DropDown'
 const TodoItem = props => {
   const [text, setText] = useState(props.title);
   const [isEditing, setEdit] = useState(false);
@@ -12,6 +11,10 @@ const TodoItem = props => {
     props.editHandler(props.todoKey, text);
     setEdit(false);
   };
+
+  let price = (props.price === "" ? "": String("$" + Number(props.price).toFixed(2)));
+  let location = props.location === "" ? "" : props.location; 
+
 
   return (
     <View style={styles.items}>
@@ -30,9 +33,10 @@ const TodoItem = props => {
           <Text style={styles.itemText}>{props.title}</Text>
         )}
         <View style={styles.btnContainer}>
-              <View style = {{paddingTop : 10}}> 
-                <Dropdown></Dropdown>
-              </View>
+          <View style = {{display:"flex", flexDirection:"row", alignItems:"center"}}>
+               {(props.price !== 0) && <Text style = {{paddingRight: 10}}>{price}</Text>}
+               {(props.location !== "")&& <Text>{location}</Text>}
+          </View>
           {isEditing ? (
             <Pressable title="Save" onPress={handleEdit} style={styles.editBtn} >
               <FontAwesome name = "pencil" color = "black" size = {25}/>
