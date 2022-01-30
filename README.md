@@ -13,11 +13,17 @@ The list page allows you to create shopping lists that will then check the datab
 ## Technologies
 
 [Google Cloud SQL](https://cloud.google.com/sql)
+###
 [Google Cloud Storage](https://cloud.google.com/storage)
+###
 [Google Firebase Storage](https://firebase.google.com/docs/storage)
+###
 [Google Vision AI](https://cloud.google.com/vision)
+###
 [Google Cloud Functions](https://cloud.google.com/functions)
+###
 [Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview)
+###
 [React Native](https://reactnative.dev/)
 
 
