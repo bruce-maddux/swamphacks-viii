@@ -12,13 +12,13 @@ When you first open the app you will be prompted to login, if you do not already
 The list page allows you to create shopping lists that will then check the database for the item's lowest price and corresponding store. The account information page allows you to edit your information including your username, password, and profile picture. The fourth and final page on the app is the receipt submission page, using this page users can submit pictures of receipts from listed stores. With these photos using Google's Vision AI price information can be pulled and used to update the Google SQL database of prices.
 ## Technologies
 
-###[Google Cloud SQL](https://cloud.google.com/sql)
-###[Google Cloud Storage](https://cloud.google.com/storage)
-###[Google Firebase Storage](https://firebase.google.com/docs/storage)
-###[Google Vision AI](https://cloud.google.com/vision)
-###[Google Cloud Functions](https://cloud.google.com/functions)
-###[Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview)
-###[React Native](https://reactnative.dev/)
+[Google Cloud SQL](https://cloud.google.com/sql)
+[Google Cloud Storage](https://cloud.google.com/storage)
+[Google Firebase Storage](https://firebase.google.com/docs/storage)
+[Google Vision AI](https://cloud.google.com/vision)
+[Google Cloud Functions](https://cloud.google.com/functions)
+[Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview)
+[React Native](https://reactnative.dev/)
 
 
 ## Authors
