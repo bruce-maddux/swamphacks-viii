@@ -1,5 +1,5 @@
-import React from 'react'
-import { Text, View, Image, TextInput , Pressable, KeyboardAvoidingView} from 'react-native';
+import React, {useState} from 'react'
+import {Text, View, Image, TextInput, Pressable, KeyboardAvoidingView, Modal} from 'react-native';
 import styles from "../StyleSheets/AppStyling"
 import userStyles from '../StyleSheets/userStyles'
 import loginStyles from '../StyleSheets/loginStyles'
@@ -13,13 +13,12 @@ let customFonts = {
     'Roboto': require('../assets/fonts/Roboto-Medium.ttf'),
     'Poppins' : require('../assets/fonts/Poppins-Medium.ttf')
   };
-
 class user extends React.Component{
     async _loadFontsAsync() {
         await Font.loadAsync(customFonts);
         this.setState({ fontsLoaded: true });
       }
-    
+
       componentDidMount() {
         this._loadFontsAsync();
       }
@@ -29,6 +28,7 @@ class user extends React.Component{
         password : "password",
         phoneNumber : "",
         isEditing: false,
+        show: false
     }
     handleEmail=(text)=>{
         this.setState({email:text});
@@ -87,7 +87,7 @@ class user extends React.Component{
             <KeyboardAvoidingView style = {userStyles.container}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
-                <Text style = {{fontSize: 40, fontFamily: "Poppins", position: 'absolute', top: height / 15}}>User Info</Text>
+                <Text style = {{fontSize: 40, fontFamily: "Poppins", position: 'absolute', top: height / 22}}>User Info</Text>
                 <View style = {{borderRadius: 100, height: 200, width: 200, overflow:"hidden", alignItems:"center", justifyContent:"center"}}>
                     <Image style={styles.image} source={picture}/>
                 </View>
@@ -154,8 +154,64 @@ class user extends React.Component{
                         </TextInput>
                     </View>
                 </View>
-                
-                
+                <View style = {{position: "absolute", bottom: height / 30, justifyContent:"center"}} >
+                    <Pressable style = {{
+                        backgroundColor: 'lightblue', width:200 , height: 40, alignSelf:"center",
+                        borderRadius: 10,
+                        borderWidth: 2,
+                        borderColor: "black",
+
+                    }} onPress ={() => {this.setState({show: true})}}>
+                        <Text style = {{color: 'black', fontSize: 23, alignSelf: 'center'}}>About the App!</Text>
+                    </Pressable>
+                </View>
+                <Modal transparent = {true} visible = {this.state.show}>
+                    <View style = {{ backgroundColor : "#000000aa", flex: 1, paddingTop: 40, paddingBottom: 40}}>
+                        <View style = {{backgroundColor : "#ffffff", margin: 0, flex:1, borderRadius: 10}}>
+                            <View style = {{paddingTop:10, alignItems: 'center'}}>
+                                <Text style = {{fontSize: 30, fontWeight: 'bold', textDecorationLine: "underline"}}>About the App</Text>
+                            </View>
+                            <View style = {{paddingTop:15, paddingLeft:15, paddingRight:15, paddingBottom:10, alignItems: 'center'}}>
+                                <Text style = {{fontSize: 15}}>"CartIt" is a revolutionary mobile application that allows one to compile their personal grocery list and receive information on the best store to buy the items based on the lowest price. The application does this through the use of an established public database in combination with user submitted receipts that are analyzed using machine learning algorithms.</Text>
+                            </View>
+                            <View style = {{paddingTop:5, alignItems: 'center'}}>
+                                <Text style = {{fontSize: 20, fontWeight: 'bold', textDecorationLine: "underline"}}>The Developers</Text>
+                            </View>
+                            <View style = {{alignItems:"center"}}>
+                                <View style = {{flexDirection:"row", alignItems:"center"}}>
+                                    <View style = {{alignItems:"center", padding: 7, paddingRight: 30}}>
+                                        <Image style = {{height: 120, width: 120}}source={require("../assets/edwin.png")}/>
+                                        <Text>Edwin Lora</Text>
+                                        <Text>Lead Backend</Text>
+                                    </View>
+                                    <View style = {{alignItems:"center", padding : 7}}>
+                                        <Image style = {{height: 120, width: 120}}source={require("../assets/bruce.png")}/>
+                                        <Text>Bruce Maddux</Text>
+                                        <Text>Lead Frontend</Text>
+                                    </View>
+                                </View>
+                                <View style = {{flexDirection:"row", alignItems:"center"}}>
+                                    <View style = {{alignItems:"center", padding: 7, paddingRight: 30}}>
+                                        <Image style = {{height: 120, width: 120}}source={require("../assets/Samir.png")}/>
+                                        <Text>Samir Ziad</Text>
+                                        <Text>Fullstack</Text>
+                                    </View>
+                                    <View style = {{alignItems:"center", padding : 7}}>
+                                        <Image style = {{height: 120, width: 120}}source={require("../assets/connor.png")}/>
+                                        <Text>Connor Syron</Text>
+                                        <Text>Backend</Text>
+                                    </View>
+                                </View>
+                            </View>
+                            <View style = {{position:"absolute", bottom:0, alignItems:"center", width: "100%"}}>
+                                <Pressable style = {{backgroundColor: 'lightblue', padding: 10, borderRadius: 10, alignItems: 'center'}} onPress ={() => {this.setState({show: false})}} >
+                                    <Text style = {{ color: 'black', fontSize: 20}}>close</Text>
+                                </Pressable>
+                            </View>
+
+                        </View>
+                    </View>
+                </Modal>
             </KeyboardAvoidingView>
         )
     }
