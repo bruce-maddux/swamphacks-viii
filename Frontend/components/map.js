@@ -97,7 +97,7 @@ const map = () => {
         <View style={styles.container}>
             <View style = {{marginTop: 0, height: height / 4, backgroundColor: "white", zIndex: 3, width: "100%", justifyContent: "center", alignItems:"center"}}>
                 <View>
-                <Text style = {{marginTop: height / 6,fontWeight: 'bold', fontSize: 16, color: 'black'}}> Explore the map to find supermarkets near you!</Text>
+                <Text style = {{marginTop: (height / 6 + width*7/100),fontWeight: 'bold', fontSize: 16, color: 'black'}}> Explore the map to find supermarkets near you!</Text>
                 </View>
             </View>
 
