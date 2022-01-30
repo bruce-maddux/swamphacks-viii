@@ -1,5 +1,4 @@
 import React from 'react'
-<<<<<<< HEAD
 import { Text, View, TouchableOpacity, Dimensions, Image} from 'react-native';
 import {getStorage, uploadBytes, ref, uploadString} from "firebase/storage"
 import {utils} from "firebase/app"
@@ -85,17 +84,6 @@ class ReceiptTab extends React.Component{
                     </Text>
                 </TouchableOpacity>
                 {this.state.uploaded ? <Image source={{uri: this.state.image}} style={{ width: 200, height: 200 }}/> : null}
-=======
-import { Text, View } from 'react-native';
-import mapStyles from '../StyleSheets/mapStyles'
-import Dropdown  from './DropDown';
-class recieptUploader extends React.Component{
-    render()
-    {
-        return(
-            <View style = {mapStyles.container}>
-                <Text>Reciept Uploader</Text>
->>>>>>> 97488fb3c072cafdb7b8628f388232da80db761a
             </View>
         )
     }

@@ -75,7 +75,7 @@ export default class loginPage extends React.Component{
       }
         return (
             <View style={styles.container}>
-                <Text style = {{fontSize: 80, paddingBottom: 10, fontFamily: "Poppins", color:"midnightblue"}}>CartIt.</Text>
+                <Text style = {{fontSize: 80, paddingBottom: 10, fontFamily: "Poppins", color:"black"}}>CartIt.</Text>
                 <Image style={styles.image} source={require("../assets/logo.png")}/>
 
                 <StatusBar style="auto"/>
